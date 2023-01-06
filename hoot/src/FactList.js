@@ -7,7 +7,8 @@ function FactList({ facts, setFacts }) {
     if (facts.length === 0) {
         return (
 
-            <p>No Hoots for this category yet! Create the first one!!⚠️⚠️If you have just added one, please refresh, there was an unexpected error, I am working to fix this</p>
+            <p>No Hoots for this category yet! Create the first one!!
+                <br></br>⚠️⚠️If you have just added one, please refresh, there was an unexpected error, I am working to fix this</p>
 
 
         )
