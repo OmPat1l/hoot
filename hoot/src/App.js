@@ -57,7 +57,7 @@ function App() {
       <main className="main">
         <CategoryFilter setCurrentCategory={setCurrentCategory}></CategoryFilter>
 
-        {isLoading ? <Loader /> : <FactList facts={facts}></FactList>}
+        {isLoading ? <Loader /> : <FactList facts={facts} setFacts={setFacts}></FactList>}
 
 
 
