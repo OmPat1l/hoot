@@ -24,9 +24,14 @@ function App() {
     async function getFacts() {
       setIsLoading(true);
 
-      let { data: project, error } = await supabase
-        .from('project')
-        .select('*').eq("category", "alumni").order("interesting", { ascending: false }).limit(50);
+      let query = supabase.from('project')
+        .select('*');
+      if (currentCategory !== "all") {
+        query = query.eq("category", currentCategory);
+      }
+
+      let { data: project, error } = await query
+        .order("interesting", { ascending: false }).limit(50);
       if (!error) setFacts(project);
       else alert("there was a problem getting data");
 
@@ -41,7 +46,7 @@ function App() {
 
 
 
-  }, [])
+  }, [currentCategory])
 
   return (
 
