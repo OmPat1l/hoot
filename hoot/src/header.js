@@ -1,6 +1,6 @@
 function Header({ showForm, setShowForm }) {
 
-    const text1 = "Today I Learned";
+    const text1 = "Hoot";
     return (<header className="header">
         <div className="logo">
             <img

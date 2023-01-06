@@ -5,7 +5,7 @@ import FactList from "./FactList";
 import Header from "./header";
 import NewFactForm from "./NewFactForm";
 import supabase from "./supabase";
-
+import Loader from "./loader";
 
 
 
@@ -18,12 +18,19 @@ import supabase from "./supabase";
 function App() {
   const [showForm, setShowForm] = useState(false);
   const [facts, setFacts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("all")
   useEffect(function () {
     async function getFacts() {
+      setIsLoading(true);
+
       let { data: project, error } = await supabase
         .from('project')
-        .select('*')
-      setFacts(project);
+        .select('*').eq("category", "alumni").order("interesting", { ascending: false }).limit(50);
+      if (!error) setFacts(project);
+      else alert("there was a problem getting data");
+
+      setIsLoading(false);
       // console.log(project);
 
 
@@ -43,11 +50,13 @@ function App() {
       <Header showForm={showForm} setShowForm={setShowForm}></Header>
       {showForm ? <NewFactForm setFacts={setFacts} setShowForm={setShowForm} /> : null}
       <main className="main">
+        <CategoryFilter setCurrentCategory={setCurrentCategory}></CategoryFilter>
+
+        {isLoading ? <Loader /> : <FactList facts={facts}></FactList>}
 
 
 
-        <CategoryFilter></CategoryFilter>
-        <FactList facts={facts}></FactList>
+
       </main>
     </>
   )
