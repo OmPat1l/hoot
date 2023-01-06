@@ -1,9 +1,10 @@
 import "./style.css";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CategoryFilter from "./CategoryFiltre";
 import FactList from "./FactList";
 import Header from "./header";
 import NewFactForm from "./NewFactForm";
+import supabase from "./supabase";
 
 
 
@@ -13,20 +14,40 @@ import NewFactForm from "./NewFactForm";
 
 // 👍 🤯 ⛔️
 
+
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const [facts, setFacts] = useState([]);
+  useEffect(function () {
+    async function getFacts() {
+      let { data: project, error } = await supabase
+        .from('project')
+        .select('*')
+      setFacts(project);
+      // console.log(project);
+
+
+
+    }
+    getFacts();
+
+
+
+
+  }, [])
+
   return (
 
 
     <>
       <Header showForm={showForm} setShowForm={setShowForm}></Header>
-      {showForm ? <NewFactForm /> : null}
+      {showForm ? <NewFactForm setFacts={setFacts} setShowForm={setShowForm} /> : null}
       <main className="main">
 
 
 
         <CategoryFilter></CategoryFilter>
-        <FactList></FactList>
+        <FactList facts={facts}></FactList>
       </main>
     </>
   )
